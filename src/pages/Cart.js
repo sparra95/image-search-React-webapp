@@ -5,8 +5,8 @@ import {Context} from "../Context"
 function Cart() {
     const [buttonText, setButtonText] = useState("Place Order")
     const {cartItems, emptyCart} = useContext(Context)
-    const cartItemElements = cartItems.map(item => <CartItem key={item.id} item={item} />)
     
+    const cartItemElements = cartItems.map(item => <CartItem key={item.id} item={item} />) 
     const itemCost = 5.99
     const totalCost = (cartItems.length * itemCost).toLocaleString("en-US", {style: "currency", currency: "USD"})
     

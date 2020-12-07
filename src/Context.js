@@ -6,7 +6,17 @@ function ContextProvider({children}) {
     const [allPhotos, setAllPhotos] = useState([])
     const [cartItems, setCartItems] = useState([])
     
+    const contextProps = {
+        allPhotos,
+        toggleFavorite,
+        cartItems,
+        addToCart,
+        removeFromCart,
+        emptyCart
+    }
+    
     const url = "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json"
+    // On mount, pull photos from source
     useEffect(() => {
         fetch(url)
             .then(res => res.json())
@@ -35,7 +45,7 @@ function ContextProvider({children}) {
     }
     
     return (
-        <Context.Provider value={{allPhotos, toggleFavorite, cartItems, addToCart, removeFromCart, emptyCart}}>
+        <Context.Provider value={contextProps}>
             {children}
         </Context.Provider>
     )
