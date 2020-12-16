@@ -1,20 +1,50 @@
-import React, {useContext} from "react"
+import React, {useState, useContext} from "react"
 
 import Image from "../components/Image"
-import {Context} from "../Context"
+import {UnsplashContext} from "../UnsplashContext"
 import {getClass} from "../utils"
 
 function Photos() {
-    const {allPhotos} = useContext(Context)
+    const {photos, searchPhotos} = useContext(UnsplashContext)
+    const [searchText, setSearchText] = useState("")
     
-    const imageElements = allPhotos.map((img, i) => (
+    const unsplashImagesElements = photos.map((img, i) =>
         <Image key={img.id} img={img} className={getClass(i)} />
-    ))
+    )
+    
+    function handleChange(event) {
+        setSearchText(event.target.value)
+    }
+    
+    function handleSubmit(query) {
+        searchPhotos(query)
+        setSearchText("")
+    }
     
     return (
-        <main className="photos">
-            {imageElements}
-        </main>
+        <div>
+            <div className="searchContainer">
+                <input 
+                    type="text"
+                    name="search"
+                    className="searchInput"
+                    value={searchText}
+                    onChange={handleChange}
+                    placeholder="Search Unsplash Photos"
+                />
+                <button
+                    className="searchSubmit"
+                    onClick={() => handleSubmit(searchText)}
+                    disabled={searchText===""}
+                >
+                    Search
+                </button>
+            </div>
+            
+            <main className="photos">
+                {unsplashImagesElements}
+            </main>
+        </div>
     )
 }
 

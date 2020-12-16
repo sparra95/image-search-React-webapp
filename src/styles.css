@@ -135,3 +135,32 @@ a {
 a:visited { color: var(--light-blue); }
 a:hover { color: var(--light-blue); }
 a:active { color: var(--light-blue); }
+
+.searchContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 15px 0 10px;
+}
+
+input.searchInput {
+    width: 200px;
+    height: 30px;
+    border: 1px solid gray;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+    padding: 0 10px;
+}
+
+button.searchSubmit {
+    height: 32px;
+    color: white;
+    background-color: var(--pink);
+    border: 1px solid gray;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}
+
+button.searchSubmit:disabled {
+    cursor: not-allowed;
+}

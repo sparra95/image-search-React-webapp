@@ -30,7 +30,7 @@ function Image({className, img}) {
             className={`${className} image-container`}
             ref={ref}
         >
-            <img src={img.url} alt="" className="image-grid"/>
+            <img src={img.url || img.urls.small} alt="" className="image-grid"/>
             {heartIcon()}
             {cartIcon()}
         </div>
@@ -41,7 +41,8 @@ Image.propTypes = {
     className: PropTypes.string,
     img: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
+        url: PropTypes.string, //.isRequired
+        urls: PropTypes.string,
         isFavorite: PropTypes.bool
     })
 }

@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 
 import {BrowserRouter as Router} from "react-router-dom"
 import {ContextProvider} from "./Context"
+import {UnsplashContextProvider as UCP} from "./UnsplashContext"
 
 ReactDOM.render(
   <React.StrictMode>
     <ContextProvider>
-      <Router>
-        <App />
-      </Router>
+      <UCP>
+        <Router>
+          <App />
+        </Router>
+      </UCP>
     </ContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
