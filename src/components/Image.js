@@ -4,9 +4,11 @@ import PropTypes from "prop-types"
 import {Context} from "../Context"
 import useHover from "../hooks/useHover"
 
-function Image({className, img}) {
+function Image({className, img, index}) {
     const [hovered, ref] = useHover()
     const {toggleFavorite, addToCart, cartItems, removeFromCart} = useContext(Context)
+    
+    const ANIMATION_DELAY = index*100
     
     function heartIcon() {
         if(img.isFavorite) {
@@ -26,13 +28,13 @@ function Image({className, img}) {
     }
     
     return (
-        <div 
-            className={`${className} image-container`}
-            ref={ref}
-        >
-            <img src={img.url || img.urls.small} alt="" className="image-grid"/>
-            {heartIcon()}
-            {cartIcon()}
+        <div ref={ref} className={`${className} image-container`}>
+            <img
+                src={img.url || img.urls.small}
+                alt={img.alt_description}
+                className="image-grid"
+                style={{animationDelay: `${ANIMATION_DELAY}ms`}}
+            />
         </div>
     )
 }
@@ -42,7 +44,7 @@ Image.propTypes = {
     img: PropTypes.shape({
         id: PropTypes.string.isRequired,
         url: PropTypes.string, //.isRequired
-        urls: PropTypes.string,
+        urls: PropTypes.object,
         isFavorite: PropTypes.bool
     })
 }

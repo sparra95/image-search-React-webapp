@@ -11,9 +11,11 @@ function Header() {
     return (
         <header>
             <Link to="/"><h2>Pic Some</h2></Link>
+            {/*
             <Link to="/cart">
                 {cartIcon}
             </Link>
+            */}
         </header>
     )
 }

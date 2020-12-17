@@ -10,20 +10,23 @@ function UnsplashContextProvider({children}) {
 	const API = createApi({ accessKey: ACCESS_KEY });
 	
 	useEffect(function() {
-		API.search.getPhotos({ query: "dog", per_page: 30 })
+		API.search.getPhotos({ query: "plants", per_page: 30 })
 		.then(result => {
 			console.log(result.response.results)
 			setPhotos(result.response.results)
 		})
 		.catch((result) => {
 			console.log("something went wrong!");
-			console.log(result.errors)
+			console.log(result)
 		});
 	}, [])
 	
-	function searchPhotos(searchTerm) {
-		API.search.getPhotos({ query: searchTerm, per_page: 30 })
+	function searchPhotos(queryObject) {
+		console.log(queryObject)
+		
+		API.search.getPhotos(queryObject)
 		.then(result => {
+			console.log(result.response.results)
 			setPhotos(result.response.results)
 		}).
 		catch(result => {

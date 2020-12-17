@@ -7,9 +7,10 @@
 }
 
 html, body {
-    font-family: 'Oswald', sans-serif;
+    font-family: sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #e3e3e3;
 }
 
 main.photos {
@@ -70,6 +71,30 @@ img.image-grid {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    animation: fadeInFromBelow;
+    animation-duration: 1.4s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeInFromBelow {
+    0% {
+        -webkit-box-shadow: 25px 25px 5px 0px rgba(0,0,0,0.5);
+        -moz-box-shadow: 25px 25px 5px 0px rgba(0,0,0,0.5);
+        box-shadow: 25px 25px 5px 0px rgba(0,0,0,0.5);
+        position: relative;
+        opacity: 0;
+        top: 75px;
+        left: 25px;
+    }
+    100% {
+        opacity: 1;
+        -webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+        -moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+        position: relative;
+        top: 0px;
+        left: 0px;
+    }
 }
 
 .image-container {
@@ -138,8 +163,9 @@ a:active { color: var(--light-blue); }
 
 .searchContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 15px 0 10px;
 }
 
@@ -163,4 +189,58 @@ button.searchSubmit {
 
 button.searchSubmit:disabled {
     cursor: not-allowed;
+    opacity: .75;
+    background-color: #E36A5D;
+}
+
+div.mainSearchOptions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+div.searchContainer button[name="advOptionsBtn"] {
+    color: blue;
+    margin: 10px;
+    font-family: sans-serif;
+    background-color: inherit;
+    border: none;
+}
+
+div.advancedSearchOptions {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+div.advancedSearchOptions > div {
+    width: 120px;
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+div.advancedSearchOptions label {
+    width: 100%;
+    color: gray;
+    font-size: 12px;
+    margin: auto;
+}
+
+div.advancedSearchOptions input, div.advancedSearchOptions select {
+    min-width: 100px;
+    height: 30px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin: 10px 0;
+}
+
+div.advancedSearchOptions select {
+    background-color: white;
 }
