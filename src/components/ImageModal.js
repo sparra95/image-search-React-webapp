@@ -1,77 +1,61 @@
-import React, {useEffect, useContext} from "react"
+import React, {useState, useContext} from "react"
 import {UnsplashContext} from "../UnsplashContext"
-import PropTypes from "prop-types"
+import LoadingAnimation from "./LoadingAnimation"
 
-function ImageModal({img, toggleModal, ...props}) {
+function ImageModal({photo, ...props}) {
 	
 	const {getPhoto, trackPhotoDownload} = useContext(UnsplashContext)
-	const ID = img.id
-	const NAME = img.user.name
-	const ALT_DESCRIPTION = img.alt_description
-	const DESCRIPTION = img.description
-	const IMG_SOURCE = img.urls.regular
-	const DOWNLOAD_URL = img.links.download || img.links.download_location
-	
-	// On mount, call API to get photo and all it's info
-	// useEffect(function() { getPhoto(ID) }, [])
+	const profileImg = photo.user.profile_image.small
+	const name = photo.user.name
+	const instagramUsername = photo.user.instagram_username
+	const imgSource = photo.urls.regular
+	const altDescription = photo.alt_description
+	const description = photo.description
+	const downloadUrl = photo.links.download
+	const [isLoaded, setIsLoaded] = useState(false)
 	
 	function captureClick(event) {
 		event.stopPropagation()
 	}
 	
 	return (
-		<div className="modal-container" onClick={() => toggleModal()}>
+		<div className="modal-container" onClick={() => props.toggleModal()}>
 			<button className="close-button">+</button>
 			<div className="modal-main" onClickCapture={captureClick}>
 				
 				<div className="modal-header">
-					<img name="profile-image" src={img.user.profile_image.small} alt={NAME} />
+					<img name="profile-image" src={profileImg} alt={name} />
 					
 					<div className="username-container">
-						<h4 name="username">{NAME}</h4>
-						<small name="instagram-username">@{img.user.instagram_username}</small>
+						<h4 name="username">{name}</h4>
+						<small name="instagram-username">@{instagramUsername}</small>
 					</div>
 					
 					<a
 						className="download-button"
-						href={DOWNLOAD_URL + "?force=true"}
+						href={downloadUrl + "?force=true"}
 						rel="nofollow"
 						download
 						target="_blank"
-						onClickCapture={() => trackPhotoDownload(DOWNLOAD_URL)}
+						onClickCapture={() => trackPhotoDownload(downloadUrl)}
 					>
 						Download
 					</a>
 				</div>
 				
 				<div className="image-container">
-					<img src={IMG_SOURCE} alt={ALT_DESCRIPTION} />
+				{!isLoaded && <LoadingAnimation />}
+					<img
+						src={imgSource}
+						alt={altDescription}
+						onLoad={() => setIsLoaded(true)}
+						style={{display: isLoaded? "block":"none"}}
+					/>
 				</div>
-				
-				{DESCRIPTION && <small name="description">{DESCRIPTION}</small>}
+				<p name="description">{description}</p>
 			</div>		
 		</div>
 	)
-}
-
-ImageModal.propTypes = {
-	toggleModal: PropTypes.func.isRequired,
-	img: PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		urls: PropTypes.object.isRequired,
-		alt_description: PropTypes.string,
-		description: PropTypes.string,
-		color: PropTypes.string,
-		links: PropTypes.shape({
-			download: PropTypes.string
-			}),
-		user: PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			name: PropTypes.string,
-			bio: PropTypes.string,
-			location: PropTypes.string
-			}).isRequired
-	}).isRequired
 }
 
 export default ImageModal

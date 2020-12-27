@@ -1,31 +1,44 @@
-import React, {useState, useContext} from "react"
+import React, {useState, useEffect, useContext} from "react"
+import {useHistory, useLocation} from "react-router-dom"
 import {UnsplashContext} from "../UnsplashContext"
 
 function SearchOptions() {
 	const {searchPhotos} = useContext(UnsplashContext)
 	
+	const history = useHistory()
+	const location = useLocation()
     const [query, setQuery] = useState("")
     const [page, setPage] = useState(1)
-    const [perPage, setPerPage] = useState(20)
+    const [perPage, setPerPage] = useState(10)
     const [orientation, setOrientation] = useState("")
     const [color, setColor] = useState("")  
-    const [advOpts, setAdvOpts] = useState(false)
+    const [extraOpts, setExtraOpts] = useState(true)
     
     const queryObject = {
-        query: query,
         page: page,
         per_page: perPage,
         orientation: orientation,
         color: color
     }
 	
+	useEffect(() => {
+		if (location.pathname === "/") {
+			setQuery("")
+			setPage(1)
+			setPerPage(10)
+			setOrientation("")
+			setColor("")
+		}
+	}, [location])
+	
 	function colorBtnStyles() {
 		let bgColor = "white"
 		let fontColor = "white"
-		// Change btn background color if color is selected
-		if (color === "black_and_white") { bgColor = "black" }
-		else if (color !== "") { bgColor = color }
-		// Use lighter font color if selected color is dark
+		
+		if (color === "") {fontColor = "black"}
+		// If color is selected, change button background color
+		if (color !== "") { bgColor = color }
+		// If color is light, use dark font color
 		if (color === "white" || color === "yellow") { fontColor = "black" }
 		
 		return ({
@@ -34,12 +47,12 @@ function SearchOptions() {
 		})
 	}
 	
-	function displayAdvOpts() {
-		return (advOpts? "" : "hidden")
+	function displayExtraOpts() {
+		return (extraOpts? "" : "hidden")
 	}
     
     function handleChange(event) {
-        switch (event.target.name) {
+		switch (event.target.name) {
             case "query":
                 setQuery(event.target.value)
                 break;
@@ -60,27 +73,48 @@ function SearchOptions() {
         }
         
     }
+	
+	function checkEnter(event) {
+		if (event.key === "Enter") handleSubmit()
+	}
     
     function handleSubmit() {
-        let newQueryObject = {...queryObject}
-        
+		let newQueryObject = {...queryObject}
+        let queryString = ""
+		
+		// Remove keys without values
         for (const [key, value] of Object.entries(newQueryObject)) {
-            if (value === "" || value === undefined || value === null) {
+            if (value === "" || value === undefined || value === null)
                 delete newQueryObject[key]
-            }
         }
-        
-        searchPhotos(newQueryObject)
+		
+		// If any keys remaining, build query string
+		if (Object.keys(newQueryObject).length > 0) {
+			let keysRemaining = Object.keys(newQueryObject).length
+			
+			queryString = queryString.concat("?")
+			for (const [key, value] of Object.entries(newQueryObject)) {
+				queryString = queryString.concat(key + "=" + value)
+				// If more keys remaining, add "&" to separate key/value pairs
+				if (--keysRemaining !== 0)
+					queryString = queryString.concat("&")
+			}
+		}
+		
+		// Change route to reflect submitted search query
+		history.push(`/search/${query}${queryString}`)
     }
 	
 	return (
-		<div className="searchOptionsContainer">
-			<div className="mainSearchOptions">
+		<div className="search-options-container">
+			<div className="main-search-options">
 				<input 
 					type="text"
+					autoFocus
 					name="query"
 					value={query}
 					onChange={handleChange}
+					onKeyDown={checkEnter}
 					placeholder="Search Unsplash Photos"
 				/>
 				<button
@@ -91,8 +125,10 @@ function SearchOptions() {
 					Search
 				</button>
 			</div>
-			<button name="advOptionsBtn" onClick={() => setAdvOpts(prev => !prev)}>Advanced Options</button>
-			<div className={`advancedSearchOptionsContainer ${displayAdvOpts()}`}>
+			<button name="extraOptionsBtn" onClick={() => setExtraOpts(prev => !prev)}>
+				{extraOpts? "Hide":"Show"} Extra Options
+			</button>
+			<div className={`advanced-search-options-container ${displayExtraOpts()}`}>
 				<div>
 					<label>Page</label>
 					<input
@@ -109,7 +145,7 @@ function SearchOptions() {
 					<input
 						type="number"
 						min={1}
-						max={100}
+						max={25}
 						name="perPage"
 						value={perPage}
 						onChange={handleChange}
@@ -119,9 +155,10 @@ function SearchOptions() {
 				<div>
 					<label>Orientation</label>
 					<select name="orientation" value={orientation} onChange={handleChange}>
-						<option value=""></option>
+						<option value="">Any orientation</option>
 						<option value="portrait">Portrait</option>
 						<option value="landscape">Landscape</option>
+						<option value="square">Square</option>
 					</select>
 				</div>
 			   
@@ -133,8 +170,7 @@ function SearchOptions() {
 						onChange={handleChange}
 						style={colorBtnStyles()}
 					>
-						<option value=""></option>
-						<option value="black_and_white">Black and White</option>
+						<option value="">Any color</option>
 						<option value="black">Black</option>
 						<option value="white">White</option>
 						<option value="yellow">Yellow</option>

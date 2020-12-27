@@ -1,40 +1,23 @@
 import React, {useContext} from "react"
 import PropTypes from "prop-types"
 
-//import {Context} from "../Context"
 import useHover from "../hooks/useHover"
 
-function Image({className, img, index, ...props}) {
+function Image({className, img, index, toggleModal, ...props}) {
     const [hovered, ref] = useHover()
-    //const {toggleFavorite, addToCart, cartItems, removeFromCart} = useContext(Context)
     
-    const ANIMATION_DELAY = index*100
-    
-    //function heartIcon() {
-    //    if(img.isFavorite) {
-    //        return <i className="ri-heart-fill favorite" onClick={() => toggleFavorite(img.id)}></i>
-    //    } else if(hovered) {
-    //        return <i className="ri-heart-line favorite" onClick={() => toggleFavorite(img.id)}></i>
-    //    }
-    //}
-    //
-    //function cartIcon() {
-    //    const alreadyInCart = cartItems.some(item => item.id === img.id)
-    //    if(alreadyInCart) {
-    //        return <i className="ri-shopping-cart-fill cart" onClick={() => removeFromCart(img.id)}></i>
-    //    } else if(hovered) {
-    //        return <i className="ri-add-circle-line cart" onClick={() => addToCart(img)}></i>
-    //    }
-    //}
+    const animationDelay = index*100
+    const imgSource = img.urls.small
+    const altDescription = img.alt_description
     
     return (
         <div ref={ref} className={`${className} image-container`}>
             <img
-                src={img.urls.small}
-                alt={img.alt_description}
+                src={imgSource}
+                alt={altDescription}
                 className="image-grid"
-                style={{animationDelay: `${ANIMATION_DELAY}ms`}}
-                onClick={() => props.toggleModal(img)}
+                style={{animationDelay: `${animationDelay}ms`}}
+                onClick={() => toggleModal(img)}
             />
         </div>
     )
@@ -44,8 +27,7 @@ Image.propTypes = {
     className: PropTypes.string,
     img: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        urls: PropTypes.object.isRequired,
-        isFavorite: PropTypes.bool
+        urls: PropTypes.object.isRequired
     })
 }
 
