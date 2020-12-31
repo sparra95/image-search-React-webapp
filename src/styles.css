@@ -208,10 +208,66 @@ button[name="searchSubmit"]:disabled {
 }
 
 .main-search-options {
+    display: grid;
+    grid-template-columns: auto;
+    row-gap: 5px;
+    width: 100%;
+}
+
+.main-options-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    grid-column: 1; 
 }
+
+.extra-options-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    grid-column: 1;
+    padding: 0 10px;
+}
+
+@media only screen and (min-width: 745px) {
+    .main-search-options {
+        grid-template-columns: 33% 33% 33%;
+    }
+
+    .main-options-container {
+        grid-column: 2;
+    }
+    
+    .extra-options-container {
+        grid-column: 3;
+        justify-content: flex-start;
+    }
+}
+
+select[name="orientation"],
+select[name="color"] {
+    min-width: 100px;
+    height: 32px;
+    border: none; /* 1px solid lightgray; /**/
+    border-radius: 5px;
+    padding-right: 10px;
+    background-color: rgba(0,0,0,0);
+    color: dimgray;
+}
+
+.color-preview {
+    min-width: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    max-height: 20px;
+    border-radius: 50%;
+    align-self: center;
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+/* EXTRA SEARCH OPTIONS */
+
 
 button[name="extraOptionsBtn"] {
     color: blue;

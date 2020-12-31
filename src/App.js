@@ -8,7 +8,7 @@ import Photos from "./pages/Photos"
 
 function App() {
   return (
-    <div onScroll={() => console.log("Scrolling!")}>
+    <div>
       <Header />
       <Switch>
         <Route path="/search/:query">
