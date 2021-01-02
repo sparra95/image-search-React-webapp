@@ -5,9 +5,9 @@ You can experience the app live [here](https://master.d19bo9dnhz2k3t.amplifyapp.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Some Technical Features
+## Technical Features
 - Connects to a RESTful backend API
 - Infinite Scrolling
 - Routing using [React-Router](https://reactrouter.com/)
 - Modal functionality
-- CSS animations and transitions for a more pleasant UX
+- CSS animations and transitions
