@@ -66,11 +66,13 @@ function Photos(props) {
     
     // Call and load next page of search results when we've reached the bottom of the page
     function handleScroll() {
-        const bottom = window.pageYOffset + window.innerHeight === window.document.body.clientHeight
+        const bottom = window.pageYOffset + window.innerHeight >= window.document.body.clientHeight - 300
         if (bottom) {
             if (status === "success") getNextPage()
         }
     }
+    
+    
     
     // Create React components from search results
     const unsplashPhotoElements = photos.map((photo, i) => 

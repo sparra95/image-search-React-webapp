@@ -5,12 +5,13 @@ const UnsplashContext = React.createContext()
 
 function UnsplashContextProvider({children}) {
 	const [photos, setPhotos] = useState([])
-	const [status, setStatus] = useState("processing") // "success", "processing", "failure"
+	const [status, setStatus] = useState("success") // "success", "processing", "failure"
+	const [perPage, setPerPage] = useState(window.innerWidth > 1400? 25 : 10)
 	const [nextPage, setNextPage] = useState(1)
 	const [query, setQuery] = useState({})
 	const [totalResults, setTotalResults] = useState()
 	
-	const DEBUG = false
+	const DEBUG = true
 	const ACCESS_KEY = "bUjMIwmrI615OMtDrloYvWD454-JgyW0hzQhkUPbzNA"
 	const API = createApi({ accessKey: ACCESS_KEY })
 	
@@ -33,7 +34,7 @@ function UnsplashContextProvider({children}) {
 		setNextPage(1)
 		setPhotos([])
 		
-		API.photos.list()
+		API.photos.list({page: 1, perPage: perPage})
 		.then(result => {
 			if (DEBUG) console.log("Response: ", result.response)
 			if (DEBUG) console.log("From list: ", result.response.results)
@@ -52,6 +53,8 @@ function UnsplashContextProvider({children}) {
 	}
 	
 	function searchPhotos(queryObject) {
+		queryObject["per_page"] = perPage
+		
 		if (DEBUG) console.log("Searching photos: ", queryObject)
 		
 		// New search: reset state and set query
@@ -62,6 +65,7 @@ function UnsplashContextProvider({children}) {
 		
 		API.search.getPhotos(queryObject)
 		.then(result => {
+			if (DEBUG) console.log("Response: ", result.response)
 			if (DEBUG) console.log("From search: ", result.response.results)
 			
 			// Success: save new data to state
@@ -89,7 +93,7 @@ function UnsplashContextProvider({children}) {
 			if (DEBUG) console.log(`Getting next page (${nextPage}) of List...`)
 			setStatus("processing")
 			
-			API.photos.list({page: nextPage})
+			API.photos.list({page: nextPage, perPage: perPage})
 			.then(result => {
 				if (DEBUG) console.log("Next page from list: ", result.response.results)
 				
@@ -106,7 +110,7 @@ function UnsplashContextProvider({children}) {
 		// If query is not empty, get the next page from the last search
 		else {
 			setStatus("processing")
-			const nextPageQuery = {...query, page: nextPage}
+			const nextPageQuery = {...query, page: nextPage, perPage: perPage}
 			
 			if (DEBUG) console.log(`Getting next page (${nextPage}) of Search...`)
 			if (DEBUG) console.log("Query: ", nextPageQuery)
