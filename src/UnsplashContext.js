@@ -6,12 +6,12 @@ const UnsplashContext = React.createContext()
 function UnsplashContextProvider({children}) {
 	const [photos, setPhotos] = useState([])
 	const [status, setStatus] = useState("success") // "success", "processing", "failure"
-	const [perPage, setPerPage] = useState(window.innerWidth > 1400? 25 : 10)
 	const [nextPage, setNextPage] = useState(1)
 	const [query, setQuery] = useState({})
 	const [totalResults, setTotalResults] = useState()
+	const perPage = window.innerWidth > 1400? 25 : 10
 	
-	const DEBUG = true
+	const DEBUG = false
 	const ACCESS_KEY = "bUjMIwmrI615OMtDrloYvWD454-JgyW0hzQhkUPbzNA"
 	const API = createApi({ accessKey: ACCESS_KEY })
 	
