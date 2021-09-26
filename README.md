@@ -1,9 +1,9 @@
 # Photo Search App in React
 This app allows you to search and download photos from [Unsplash.com](https://unsplash.com) by connecting to their free API. 
 
-You can experience the app live [here](https://master.d19bo9dnhz2k3t.amplifyapp.com/) (hosted with [AWS Amplify](https://aws.amazon.com/amplify/)).
+You can experience the app live [here] (https://master.d33pxtr4k37c7j.amplifyapp.com/).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is hosted with [AWS Amplify](https://aws.amazon.com/amplify/) and used [Create React App](https://github.com/facebook/create-react-app) as a template.
 
 ## Technical Features
 - Connects to a RESTful backend API
@@ -11,3 +11,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Routing using [React-Router](https://reactrouter.com/)
 - Modal functionality
 - CSS animations and transitions
+- App uses React v16+, utilizes custom Hooks, Context, and runs entirely on Functional Components
