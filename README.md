@@ -6,8 +6,9 @@ You can experience the app live [here] (https://master.d33pxtr4k37c7j.amplifyapp
 This project is hosted with [AWS Amplify](https://aws.amazon.com/amplify/) and used [Create React App](https://github.com/facebook/create-react-app) as a template.
 
 ## Technical Features
-- App uses React v16+, utilizes custom Hooks, Context, and runs entirely on Functional Components
-- Connects to a RESTful backend API
+- Runs on React v16+ 
+- Uses only Functional Components, React Hooks, and custom Hooks
+- Connects to a RESTful API and uses React Context to share data between components
 - Infinite Scrolling
 - Routing using [React-Router](https://reactrouter.com/)
 - Modal functionality
