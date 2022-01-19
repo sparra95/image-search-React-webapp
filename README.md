@@ -1,4 +1,4 @@
-# Image Search App in React
+# Image Search App with React
 This app allows you to search and download photos from [Unsplash.com](https://unsplash.com) by connecting to their free API. 
 
 You can experience the app live [here](https://master.d33pxtr4k37c7j.amplifyapp.com/).
